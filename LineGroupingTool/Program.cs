@@ -53,13 +53,28 @@ namespace LineGroupingTool
             // Group similar lines
             var groupedLines = GroupSimilarLines(lines);
 
-            // Write grouped lines to the output file
-            File.WriteAllLines(outputFilePath, groupedLines);
+            // Write each group to a separate output file.
+            int groupNumber = 1;
 
-            Console.WriteLine("Lines grouped and written to output file.");
+            foreach (var group in groupedLines)
+            {
+                string groupFileName = $"output-{groupNumber}.txt";
+                string groupFilePath = Path.Combine(baseDirectory, groupFileName);
+
+                // Write grouped lines to the output file
+                File.WriteAllLines(groupFilePath, group);
+
+                Console.WriteLine($"Group {groupNumber} written to output file.");
+                groupNumber++;
+            }
+
+            // Write grouped lines to the output file
+            //File.WriteAllLines(outputFilePath, groupedLines);
+
+            //Console.WriteLine("Lines grouped and written to output file.");
         }
 
-        private static List<string> GroupSimilarLines(List<string> lines)
+        private static List<List<string>> GroupSimilarLines(List<string> lines)
         {
             // Use a dictionary to group similar lines
             Dictionary<string, List<string>> lineGroups = new Dictionary<string, List<string>>();
@@ -81,17 +96,20 @@ namespace LineGroupingTool
                 }
             }
 
-            // Flatten the grouped lines
-            List<string> groupedLines = new List<string>();
+            // Return the grouped lines as a list of lists.
+            return lineGroups.Values.ToList();
 
-            foreach (var group in lineGroups.Values)
-            {
-                // Concatenate lines in each group with a separator
-                string groupedLine = string.Join(Environment.NewLine, group);
-                groupedLines.Add(groupedLine);
-            }
+            //// Flatten the grouped lines
+            //List<string> groupedLines = new List<string>();
 
-            return groupedLines;
+            //foreach (var group in lineGroups.Values)
+            //{
+            //    // Concatenate lines in each group with a separator
+            //    string groupedLine = string.Join(Environment.NewLine, group);
+            //    groupedLines.Add(groupedLine);
+            //}
+
+            //return groupedLines;
         }
 
         // This method is executed when an exception is thrown.
