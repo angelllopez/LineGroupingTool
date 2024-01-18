@@ -9,9 +9,11 @@ namespace LineGroupingTool
     {
         static void Main(string[] args)
         {
-            // Specify the input and output file paths
-            string inputFilePath = "input.txt";
-            string outputFilePath = "output.txt";
+            // Using Path.Combine to build paths for better cross-platform support.
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string inputFilePath = Path.Combine(baseDirectory, "input.txt");
+            string outputFilePath = Path.Combine(baseDirectory, "output.txt");
+            string patternFilePath = Path.Combine(baseDirectory, "pattern.txt");
 
             // Read lines from the input file
             List<string> lines = File.ReadAllLines(inputFilePath).ToList();
