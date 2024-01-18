@@ -1,1 +1,3 @@
 # LineGroupingTool
+
+The "LineGroupingTool" is a C# console application designed to analyze and organize text data. It reads an input text file line by line, identifies similar lines, and groups them together based on their content. Using a grouping mechanism, the application creates an output file where lines with identical content are consolidated into distinct groups. This utility proves useful for tasks such as identifying common patterns, detecting duplicates, or categorizing related information within a text dataset. The simplicity and efficiency of the LineGroupingTool make it a valuable resource for users seeking to streamline the analysis and organization of textual data.

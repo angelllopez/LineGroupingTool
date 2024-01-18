@@ -1,0 +1,27 @@
+name: .NET Framework CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
+    - name: Restore NuGet packages
+      run: nuget restore LineGroupingTool.sln
+
+    - name: Build LineGroupingTool
+      run: msbuild LineGroupingTool.sln /p:Configuration=Release /p:Platform="Any CPU"
