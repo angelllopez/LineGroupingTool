@@ -21,7 +21,7 @@ jobs:
       uses: NuGet/setup-nuget@v1
 
     - name: Restore NuGet packages
-      run: nuget restore PatternRecognitionTool.sln
+      run: nuget restore LineGroupingTool.sln
 
-    - name: Build PatternRecognitionTool
-      run: msbuild PatternRecognitionTool.sln /p:Configuration=Release /p:Platform="Any CPU"
+    - name: Build LineGroupingTool
+      run: msbuild LineGroupingTool.sln /p:Configuration=Release /p:Platform="Any CPU"
