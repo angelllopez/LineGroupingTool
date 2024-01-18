@@ -37,6 +37,7 @@ namespace LineGroupingTool
             if (!File.Exists(inputFilePath))
             {
                 HandleException(new Exception("Input file not found."));
+                return;
             }
 
             // Read lines from the input file
@@ -46,6 +47,7 @@ namespace LineGroupingTool
             if (lines.Count == 0)
             {
                 HandleException(new Exception("Input file is empty."));
+                return;
             }
 
             // Group similar lines
@@ -109,7 +111,6 @@ namespace LineGroupingTool
             // Wait for user input.
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
-            return;
         }
 
     }
