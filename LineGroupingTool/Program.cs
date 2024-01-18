@@ -67,11 +67,6 @@ namespace LineGroupingTool
                 Console.WriteLine($"Group {groupNumber} written to output file.");
                 groupNumber++;
             }
-
-            // Write grouped lines to the output file
-            //File.WriteAllLines(outputFilePath, groupedLines);
-
-            //Console.WriteLine("Lines grouped and written to output file.");
         }
 
         private static List<List<string>> GroupSimilarLines(List<string> lines)
@@ -81,36 +76,123 @@ namespace LineGroupingTool
 
             foreach (string line in lines)
             {
-                // Use the line itself as the key for simplicity
-                string key = line;
+                bool groupFound = false;
 
-                if (lineGroups.ContainsKey(key))
+                // Check if the line matches any of the existing groups.
+                foreach (var group in lineGroups.Keys.ToList())
                 {
-                    // Add the line to the existing group
-                    lineGroups[key].Add(line);
+                    if (AreSimilarLines(line, group))
+                    {
+                        // Add the line to the existing group
+                        lineGroups[group].Add(line);
+                        groupFound = true;
+                        break;
+                    }
                 }
-                else
+
+                // If the line does not match any of the existing groups, create a new group for the line.
+                if (!groupFound)
                 {
-                    // Create a new group for the line
-                    lineGroups[key] = new List<string> { line };
+                    lineGroups[line] = new List<string> { line };
                 }
+                
+                // Return the grouped lines as a list of lists.
+                return lineGroups.Values.ToList();
             }
 
             // Return the grouped lines as a list of lists.
             return lineGroups.Values.ToList();
-
-            //// Flatten the grouped lines
-            //List<string> groupedLines = new List<string>();
-
-            //foreach (var group in lineGroups.Values)
-            //{
-            //    // Concatenate lines in each group with a separator
-            //    string groupedLine = string.Join(Environment.NewLine, group);
-            //    groupedLines.Add(groupedLine);
-            //}
-
-            //return groupedLines;
         }
+
+        static bool AreSimilarLines(string line1, string line2)
+        {
+            // Check if the lines are equal.
+            if (line1 != line2)
+            {
+                return false;
+            }
+
+            // Check if the lines have the same length.
+            if (line1.Length != line2.Length)
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of words.
+            if (line1.Split(' ').Length != line2.Split(' ').Length)
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of characters.
+            if (line1.Count() != line2.Count())
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of digits.
+            if (line1.Count(char.IsDigit) != line2.Count(char.IsDigit))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of letters.
+            if (line1.Count(char.IsLetter) != line2.Count(char.IsLetter))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of uppercase letters.
+            if (line1.Count(char.IsUpper) != line2.Count(char.IsUpper))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of lowercase letters.
+            if (line1.Count(char.IsLower) != line2.Count(char.IsLower))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of punctuation characters.
+            if (line1.Count(char.IsPunctuation) != line2.Count(char.IsPunctuation))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of whitespace characters.
+            if (line1.Count(char.IsWhiteSpace) != line2.Count(char.IsWhiteSpace))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of symbols.
+            if (line1.Count(char.IsSymbol) != line2.Count(char.IsSymbol))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of separator characters.
+            if (line1.Count(char.IsSeparator) != line2.Count(char.IsSeparator))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of control characters.
+            if (line1.Count(char.IsControl) != line2.Count(char.IsControl))
+            {
+                return false;
+            }
+
+            // Check if the lines have the same number of surrogate characters.
+            if (line1.Count(char.IsSurrogate) != line2.Count(char.IsSurrogate))
+            {
+                return false;
+            }
+
+            return true;
+        }
+ 
 
         // This method is executed when an exception is thrown.
         private static void HandleException(Exception ex)
