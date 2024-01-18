@@ -9,14 +9,44 @@ namespace LineGroupingTool
     {
         static void Main(string[] args)
         {
+            // Start the program
+            Console.CursorVisible = false;
+            Console.WriteLine("Line Grouping Tool");
+            Console.WriteLine("============================================");
+
+            Console.WriteLine("Press any key to start...");
+
+            // Move cursor at the end of the previous line.
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+
+            // Wait for user input.
+            Console.ReadKey();
+
+            // Write blank spaces to clear the line.
+            Console.Write(new string(' ', Console.WindowWidth));
+
+            // Move cursor at the beginning of the previous line.
+            Console.SetCursorPosition(0, Console.CursorTop - 0);
+
             // Using Path.Combine to build paths for better cross-platform support.
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string inputFilePath = Path.Combine(baseDirectory, "input.txt");
             string outputFilePath = Path.Combine(baseDirectory, "output.txt");
-            string patternFilePath = Path.Combine(baseDirectory, "pattern.txt");
+
+            // Verify that the input file exist.
+            if (!File.Exists(inputFilePath))
+            {
+                HandleException(new Exception("Input file not found."));
+            }
 
             // Read lines from the input file
             List<string> lines = File.ReadAllLines(inputFilePath).ToList();
+
+            // Verify that the input file is not empty.
+            if (lines.Count == 0)
+            {
+                HandleException(new Exception("Input file is empty."));
+            }
 
             // Group similar lines
             var groupedLines = GroupSimilarLines(lines);
@@ -61,5 +91,26 @@ namespace LineGroupingTool
 
             return groupedLines;
         }
+
+        // This method is executed when an exception is thrown.
+        private static void HandleException(Exception ex)
+        {
+            // Set red foreground color.
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("An error occurred.");
+            Console.WriteLine(ex.Message);
+
+            // Reset foreground color.
+            Console.ResetColor();
+            
+            // Skip a line.
+            Console.WriteLine();
+
+            // Wait for user input.
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            return;
+        }
+
     }
 }
